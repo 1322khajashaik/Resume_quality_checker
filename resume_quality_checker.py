@@ -24,7 +24,17 @@ BUZZWORDS = [
     "cloud", "aws", "azure", "docker", "kubernetes", "tensorflow", "pytorch",
     "nlp", "deep learning", "sql", "mongodb", "html", "css", "javascript", "react",
     "git", "agile", "scrum", "devops", "rest api", "fastapi", "django", "flask",
-    "debugging", "testing", "unit test", "version control", "ci/cd", "oop", "design patterns"
+    "debugging", "testing", "unit test", "version control", "ci/cd", "oop", "design patterns" 'team player','self-motivated','leadership','synergy','proactive','hardworking','dynamic','results-driven',
+        'detail-oriented','innovative','strategic','goal oriented','motivated','passionate','responsible',
+        'organized','adaptable','communication','problem solving','critical thinking','flexible','fast learner',
+        # Common tech skills (add more as needed)
+        'python','java','c++','c#','javascript','sql','excel','tableau','powerbi','aws','azure','docker','kubernetes',
+        'react','node','git','jira','linux','agile','scrum','html','css','typescript',
+        # Popular certifications/roles
+        'pmp','six sigma','aws certified','data analyst','business analyst','product manager','devops','cloud',
+        'machine learning','artificial intelligence','deep learning','nlp','data science','web development',
+        # Misc
+        'project management','client relations','stakeholder engagement','negotiation','training', 'mentoring'
 ]
 
 PRO_EMAIL_DOMAINS = ["gmail.com", "yahoo.com", "hotmail.com"]
