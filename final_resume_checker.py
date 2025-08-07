@@ -1,14 +1,12 @@
+
+# Final cleaned Python code with all fixes applied.
 import streamlit as st
-import os
-import tempfile
 import fitz  # PyMuPDF
 import docx2txt
-import pdfminer.high_level
-import language_tool_python
-import pandas as pd
 import re
+import pandas as pd
 from spellchecker import SpellChecker
-# === Section Keywords ===
+
 SECTION_KEYWORDS = {
     "experience": ["experience", "work history", "employment", "professional experience"],
     "education": ["education", "academic", "university", "college", "degree"],
@@ -16,29 +14,24 @@ SECTION_KEYWORDS = {
     "contact": ["email", "phone", "contact", "linkedin"]
 }
 
-# === Expanded Buzzwords ===
 BUZZWORDS = [
     "team player", "self-motivated", "leadership", "python", "communication",
     "project management", "problem solving", "machine learning", "data analysis",
     "cloud", "aws", "azure", "docker", "kubernetes", "tensorflow", "pytorch",
     "nlp", "deep learning", "sql", "mongodb", "html", "css", "javascript", "react",
     "git", "agile", "scrum", "devops", "rest api", "fastapi", "django", "flask",
-    "debugging", "testing", "unit test", "version control", "ci/cd", "oop", "design patterns" 'team player','self-motivated','leadership','synergy','proactive','hardworking','dynamic','results-driven',
-        'detail-oriented','innovative','strategic','goal oriented','motivated','passionate','responsible',
-        'organized','adaptable','communication','problem solving','critical thinking','flexible','fast learner',
-        # Common tech skills (add more as needed)
-        'python','java','c++','c#','javascript','sql','excel','tableau','powerbi','aws','azure','docker','kubernetes',
-        'react','node','git','jira','linux','agile','scrum','html','css','typescript',
-        # Popular certifications/roles
-        'pmp','six sigma','aws certified','data analyst','business analyst','product manager','devops','cloud',
-        'machine learning','artificial intelligence','deep learning','nlp','data science','web development',
-        # Misc
-        'project management','client relations','stakeholder engagement','negotiation','training', 'mentoring'
+    "debugging", "testing", "unit test", "version control", "ci/cd", "oop", "design patterns",
+    "synergy", "proactive", "hardworking", "dynamic", "results-driven", "detail-oriented", 
+    "innovative", "strategic", "goal oriented", "motivated", "passionate", "responsible",
+    "organized", "adaptable", "critical thinking", "flexible", "fast learner",
+    "java", "c++", "c#", "typescript", "excel", "tableau", "powerbi", "node", "jira",
+    "linux", "pmp", "six sigma", "aws certified", "data analyst", "business analyst",
+    "product manager", "artificial intelligence", "web development", "client relations",
+    "stakeholder engagement", "negotiation", "training", "mentoring"
 ]
 
 PRO_EMAIL_DOMAINS = ["gmail.com", "yahoo.com", "hotmail.com"]
 
-# === File Parsing ===
 def extract_text_from_file(uploaded_file):
     if uploaded_file.name.endswith(".txt"):
         return uploaded_file.read().decode("utf-8"), 1
@@ -52,7 +45,6 @@ def extract_text_from_file(uploaded_file):
         return docx2txt.process(uploaded_file), 1
     return "", 0
 
-# === Section Detection ===
 def find_sections(text):
     found = {}
     text = text.lower()
@@ -60,7 +52,6 @@ def find_sections(text):
         found[section] = any(k in text for k in keywords)
     return found
 
-# === Years of Experience Detection ===
 def detect_experience_years(text):
     patterns = [
         r'(\d+)\s*years?\s*(of)?\s*experience',
@@ -78,41 +69,34 @@ def detect_experience_years(text):
                 pass
     return max_years
 
-# === Email and Phone Detection ===
 def extract_email_and_phone(text):
     email = re.search(r"[\w\.-]+@[\w\.-]+\.\w+", text)
     phone = re.search(r"\+?\d[\d\s\-]{8,}\d", text)
     return email.group(0) if email else None, phone.group(0) if phone else None
 
-# === Professional Email Check ===
 def is_professional_email(email):
     if email:
         domain = email.split('@')[-1].lower()
         return domain not in PRO_EMAIL_DOMAINS
     return False
 
-# === LinkedIn Detection ===
 def has_linkedin(text):
     return bool(re.search(r"(https?:\/\/)?(www\.)?linkedin\.com\/in\/[a-zA-Z0-9\-_]+", text.lower()))
 
-# === Spell Checker (no whitelist) ===
 def count_spelling_errors(text):
     spell = SpellChecker()
     words = re.findall(r'\b\w+\b', text.lower())
     misspelled = spell.unknown(words)
     return len(misspelled), list(misspelled)
 
-# === Resume Length ===
 def check_resume_length(text):
     words = text.split()
     return len(words)
 
-# === Buzzword Detection ===
 def detect_buzzwords(text):
     found = [word for word in BUZZWORDS if word in text.lower()]
     return found
 
-# === Score Calculation ===
 def calculate_score(sections, email, phone, professional_email, linkedin, spelling_errors, pages):
     score = 0
     if all(sections.values()): score += 30
@@ -123,7 +107,6 @@ def calculate_score(sections, email, phone, professional_email, linkedin, spelli
     if pages <= 2: score += 10
     return min(score, 100)
 
-# === Streamlit UI ===
 def main():
     st.set_page_config(page_title="Resume Quality Checker", layout="centered")
     st.title("💼 Advanced Resume Quality Checker")
@@ -131,7 +114,6 @@ def main():
 
     if uploaded_file:
         text, pages = extract_text_from_file(uploaded_file)
-
         sections = find_sections(text)
         email, phone = extract_email_and_phone(text)
         professional_email = is_professional_email(email)
