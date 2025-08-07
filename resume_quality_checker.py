@@ -8,7 +8,6 @@ import language_tool_python
 import pandas as pd
 import re
 from spellchecker import SpellChecker
-
 # === Section Keywords ===
 SECTION_KEYWORDS = {
     "experience": ["experience", "work history", "employment", "professional experience"],
